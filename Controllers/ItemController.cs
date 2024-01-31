@@ -50,7 +50,7 @@ namespace SaaLItems.Controllers
         public ActionResult DeleteRelation(int id)
         {
             RelationshipRepository.DeleteRelation(id);
-            return RedirectToAction("Index");
+            return View("Relationships");
         }
 
         public ActionResult Search(string term)
@@ -69,18 +69,13 @@ namespace SaaLItems.Controllers
         [HttpPost]
         public ActionResult CreateRelationship(RelationModel model)
         {
-            // Check if the model is valid
-            if (ModelState.IsValid)
-            {
+
                 // Add the relationship to the repository
                 RelationshipRepository.AddRelation(model);
 
                 // Return a partial view with the updated relationships
-                return PartialView("Relationships", RelationshipRepository.GetItemRelationships());
-            }
+                return PartialView("RelationshipsTablePartial", RelationshipRepository.GetItemRelationships());
 
-            // If the model is not valid, return the view with errors
-            return View("Relationships", model);
         }
 
     }

@@ -68,7 +68,7 @@ namespace SaaLItems
         private static void SaveObjects()
         {
             string objectsJson = JsonSerializer.Serialize(_items);
-            File.WriteAllText("objects.json", objectsJson);
+            File.WriteAllText("items.json", objectsJson);
         }
     }
 }
