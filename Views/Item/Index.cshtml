@@ -18,46 +18,31 @@
         <th>Type</th>
         <th></th>
     </tr>
-    @foreach (ItemModel item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@item.Type</td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                @Html.ActionLink("Relationships", "Relationships", new { id = item.Id })
-
-            </td>
-        </tr>
-    }
+    
+    @Html.Partial("ItemTablePartial", Model)
 </table>
 
-
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <script>
     $(function () {
         $("#search").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: "@Url.Action("Search", "Item")", 
+                    url: "@Url.Action("Search", "Item")",
                     type: "GET",
-                    dataType: "json",
+                    dataType: "html",
                     data: { term: request.term },
                     success: function (data) {
-                        response($.map(data, function (item) {
-                            return { label: item.Name, value: item.Name };
-                        }));
+                        // Replace the content of the table with the filtered items
+                        $("#itemTable").html(data);
                     }
                 });
             },
-            minLength: 2,
-            select: function (event, ui) {
-                window.location.href = "@Url.Action("Edit", "Item")" + "/" + ui.item.label; 
-            }
+            minLength: 2
         });
     });
 </script>

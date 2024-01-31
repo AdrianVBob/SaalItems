@@ -1,0 +1,15 @@
+﻿@model List<ItemModel>
+
+@foreach (ItemModel item in Model)
+{
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Description</td>
+        <td>@item.Type</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+            @Html.ActionLink("Relationships", "Relationships", new { id = item.Id })
+        </td>
+    </tr>
+}

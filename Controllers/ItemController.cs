@@ -55,8 +55,20 @@ namespace SaaLItems.Controllers
 
         public ActionResult Search(string term)
         {
-            List<ItemModel> matchedObjects = ItemRepository.GetItems().Where(o => o.Name.Contains(term)).ToList();
-            return View("Index", matchedObjects);
+            // Assuming GetItems is a method to retrieve all items
+            List<ItemModel> items = ItemRepository.GetItems();
+
+            if (!string.IsNullOrEmpty(term))
+            {
+                // Filter items based on the search term
+                items = items.Where(item =>
+                    item.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                    item.Description.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                    item.Type.Contains(term, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
+
+            return PartialView("ItemTablePartial", items);
         }
 
         public IActionResult Relationships(int itemId)
