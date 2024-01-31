@@ -3,7 +3,7 @@
 <h2>Item List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", "Item")
 </p>
 
 <div>
@@ -19,7 +19,7 @@
         <th></th>
     </tr>
     
-    @Html.Partial("ItemTablePartial", Model)
+    @Html.Partial("~/Views/Item/ItemTablePartial.cshtml", Model)
 </table>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">

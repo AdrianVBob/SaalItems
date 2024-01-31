@@ -8,7 +8,8 @@ namespace SaaLItems.Controllers
         public ActionResult Index()
         {
             List<ItemModel> items = ItemRepository.GetItems();
-            return View(items);
+
+            return View("~/Views/Home/Index.cshtml", items);
         }
 
         public ActionResult Create()
