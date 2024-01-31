@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "Name": "Object1",
+    "Description": "Description for Object1",
+    "Type": "TypeA"
+  },
+  {
+    "Id": 2,
+    "Name": "Object2",
+    "Description": "Description for Object2",
+    "Type": "TypeB"
+  },
+  {
+    "Id": 3,
+    "Name": "Object3",
+    "Description": "Description for Object3",
+    "Type": "TypeC"
+  }
+]

@@ -1,0 +1,25 @@
+﻿@model List<RelationModel>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Relationship ID</th>
+        <th>Item 1 ID</th>
+        <th>Item 2 ID</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var relationship in Model)
+    {
+        <tr>
+            <td>@relationship.Id</td>
+            <td>@relationship.ItemId1</td>
+            <td>@relationship.ItemId2</td>
+            <td>
+                    @Html.ActionLink("DeleteRelation", "DeleteRelation", new { id = relationship.Id })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

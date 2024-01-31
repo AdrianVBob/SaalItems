@@ -1,0 +1,91 @@
+﻿@model RelationModel
+
+<h2>Create Relationship</h2>
+
+<form asp-action="CreateRelationship" id="createRelationshipForm">
+    <!-- Dropdown for Item 1 -->
+    <div>
+        <label asp-for="ItemId1">Item 1:</label>
+        <select asp-for="ItemId1" asp-items="@GetItemSelectList()" class="form-control">
+            <option value="">Select Item 1</option>
+        </select>
+    </div>
+
+    <!-- Dropdown for Item 2 -->
+    <div>
+        <label asp-for="ItemId2">Item 2:</label>
+        <select asp-for="ItemId2" asp-items="@GetItemSelectList()" class="form-control">
+            <option value="">Select Item 2</option>
+        </select>
+    </div>
+
+    <button type="submit" id="createRelationshipBtn">Create Relationship</button>
+</form>
+
+<hr />
+
+<h2>Existing Relationships</h2>
+
+<!-- Render the relationships table using the partial view -->
+<div id="relationshipsTableContainer">
+    @await Html.PartialAsync("RelationshipsTablePartial", RelationshipRepository.GetItemRelationships())
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(function () {
+            // Intercept form submission using AJAX
+            $("#createRelationshipForm").submit(function (e) {
+                e.preventDefault(); // Prevent the form from submitting in the traditional way
+
+                // Perform an AJAX post to the CreateRelationship action
+                $.ajax({
+                    url: "@Url.Action("CreateRelationship")",
+                    type: "POST",
+                    data: $(this).serialize(), // Serialize the form data
+                    success: function (result) {
+                        // Update the relationships table with the returned partial view
+                        $("#relationshipsTableContainer").html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+
+            // Function to get a SelectList for the items
+            function GetItemSelectList() {
+                // Access the list of relationships from the _relations list
+                var relationships = @Html.Raw(Json.Serialize(RelationshipRepository.GetItemRelationships()));
+
+                // Ensure that relationships is not null
+                relationships ??= [];
+
+                // Filter out null values in case any elements are null
+                relationships = relationships.filter(function (r) { return r != null; });
+
+                // Convert the list to a SelectList
+                return new SelectList(relationships, "ItemId1", "ItemId2");
+            }
+        });
+    </script>
+}
+@functions {
+    // Function to get a SelectList for the items
+    static SelectList GetItemSelectList()
+    {
+        // Access the list of relationships from the _relations list
+        List<ItemModel>? items = ItemRepository.GetItems();
+
+        // Ensure that relationships is not null
+        items ??= [];
+
+        // Filter out null values in case any elements are null
+        items = items.Where(r => true).ToList();
+
+        // Convert the list to a SelectList
+        return new SelectList(items, "Id", "Id");
+    }
+}

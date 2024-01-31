@@ -1,0 +1,16 @@
+﻿@model ItemModel
+
+<h2>Delete Object</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Name: @Model.Name</h4>
+    <h4>Description: @Model.Description</h4>
+    <h4>Type: @Model.Type</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Delete" class="btn btn-danger" />
+}
